@@ -189,14 +189,14 @@
 (defn start-server
   []
   (prn "Starting server...")
-  (reset! server (http/start-server app {:port 3000}))
+  (reset! server (http/start-server app {:port 3000})))
 
-  (defn stop-server
-    []
-    (prn "Stopping server...")
-    (reset! conns initial-state)
-    (.close @server)
-    (reset! server nil)))
+(defn stop-server
+  []
+  (prn "Stopping server...")
+  (reset! conns initial-state)
+  (.close @server)
+  (reset! server nil))
 
 (defn restart-server
   []
