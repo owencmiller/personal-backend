@@ -1,14 +1,15 @@
 (ns game-backend.handler
-  (:require [compojure.core :refer :all]
+  (:require [aleph.http :as http]
+            [clojure.java.io :as io]
+            [clojure.string :as str]
+            [compojure.core :refer :all]
             [compojure.route :as route]
-            [ring.middleware.defaults :refer [wrap-defaults site-defaults]]
-            [aleph.http :as http]
+            [game-backend.games.noname :as nn]
+            [jumblerg.middleware.cors :refer [wrap-cors]]
             [manifold.deferred :as d]
             [manifold.stream :as s]
-            [game-backend.games.noname :as nn]
-            [clojure.edn :as edn]
-            [jumblerg.middleware.cors :refer [wrap-cors]]
-            [clojure.string :as str]))
+            [ring.middleware.defaults :refer [site-defaults wrap-defaults]]
+            [aleph.netty :as netty]))
 
 
 
@@ -186,10 +187,15 @@
 
 (defonce server (atom nil))
 
-(defn start-server
-  []
-  (prn "Starting server...")
-  (reset! server (http/start-server app {:port 3000})))
+(defn start-server []
+  (prn "Starting secure server on port 443...")
+  (let [ssl-context (netty/ssl-server-context
+                     {:certificate-chain (io/file "/etc/letsencrypt/live/api.owenmiller.me/fullchain.pem")
+                      :private-key       (io/file "/etc/letsencrypt/live/api.owenmiller.me/privkey.pem")})]
+    (reset! server
+            (http/start-server app
+                               {:port        443
+                                :ssl-context ssl-context}))))
 
 (defn stop-server
   []
