@@ -194,7 +194,7 @@
                       :private-key       (io/file "/etc/letsencrypt/live/api.owenmiller.me/privkey.pem")})]
     (reset! server
             (http/start-server app
-                               {:port        443
+                               {:port        3001
                                 :ssl-context ssl-context}))))
 
 (defn stop-server
