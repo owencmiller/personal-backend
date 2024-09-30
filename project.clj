@@ -7,7 +7,10 @@
                  [ring/ring-defaults "0.3.2"]
                  [aleph "0.6.0"]
                  [manifold "0.3.0"]
-                 [jumblerg/ring-cors "3.0.0"]]
+                 [jumblerg/ring-cors "3.0.0"]
+                 [generateme/fastmath "3.0.0-alpha2"]
+                 [org.mentat/emmy "0.32.0"]
+                 [nrepl/nrepl "1.0.0"]]
   :plugins [[lein-ring "0.12.5"]]
   :ring {:handler game-backend.handler/app}
   :main game-backend.handler/-main

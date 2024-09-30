@@ -8,6 +8,7 @@
             [jumblerg.middleware.cors :refer [wrap-cors]]
             [manifold.deferred :as d]
             [manifold.stream :as s]
+            [nrepl.server :as nrepl-server]
             [ring.middleware.defaults :refer [site-defaults wrap-defaults]]
             [aleph.netty :as netty]))
 
@@ -185,6 +186,7 @@
 
 ;; Server management
 
+(defonce nrepl (nrepl-server/start-server :port 7000))
 (defonce server (atom nil))
 
 (defn start-server []
